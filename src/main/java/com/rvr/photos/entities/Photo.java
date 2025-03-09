@@ -1,12 +1,29 @@
 package com.rvr.photos.entities;
 
-import org.jetbrains.annotations.NotNull;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.validation.constraints.NotEmpty;
 
 public class Photo {
 
-    String id;
-    @NotNull
-    String fileName;
+    private String id;
+
+    @NotEmpty
+    private String fileName;
+
+    @JsonIgnore
+    private byte[] data;
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
+
+    public Photo() {
+
+    }
 
 
     public String getId() {
