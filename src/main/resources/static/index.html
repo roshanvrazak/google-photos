@@ -2,9 +2,86 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        input[type="file"] {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
+
+<div class="container">
+    <h2>Photo Upload</h2>
+    <input id="fileupload" type="file" name="fileupload" />
+    <button id="upload-button" onclick="uploadFile()">Upload</button>
+</div>
+
+<script>
+    async function uploadFile() {
+        let fileInput = document.getElementById("fileupload");
+        if (fileInput.files.length === 0) {
+            alert("Please select a file to upload.");
+            return;
+        }
+
+        let formData = new FormData();
+        formData.append("data", fileInput.files[0]);
+
+        try {
+            let response = await fetch('http://localhost:8080/photos', {
+                method: "POST",
+                body: formData
+            });
+            let text = await response.text();
+            alert(text);
+        } catch (error) {
+            console.error("Upload failed:", error);
+            alert("Error uploading file. Please try again.");
+        }
+    }
+</script>
 
 </body>
 </html>
